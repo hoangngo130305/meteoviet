@@ -169,18 +169,17 @@
   
 
 //  doimau
-  const currentPath = window.location.pathname.split("/").pop(); // "index.html", "licham.html"...
+const currentPath = window.location.pathname.split("/").pop();
 
-  document.querySelectorAll(".bottom-nav a").forEach(link => {
-    const href = link.getAttribute("href").split("/").pop();
+document.querySelectorAll(".bottom-nav .nav-item").forEach(item => {
+  const link = item.querySelector("a");
+  const href = link.getAttribute("href").split("/").pop();
 
-    if (
-      currentPath === href || 
-      (currentPath === "" && href === "index.html")
-    ) {
-      link.querySelector("div").classList.add("active");
-    }
-  });
+  if (currentPath === href || (currentPath === "" && href === "index.html")) {
+    item.classList.add("active");
+  }
+});
+
 
 
 </script>
