@@ -1,0 +1,612 @@
+:root {
+  --primary-blue: #2e7cf6;
+  --text-dark: #333;
+  --text-light: #fff;
+  --uv-low: #ffd873;
+  --background: #f9f9f9;
+  --gray: #888;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Inter", sans-serif;
+  background-color: var(--background);
+  color: var(--text-dark);
+}
+
+.app {
+  max-width: 380px;
+  margin: 0 auto;
+  background-color: #fff;
+  padding-top: 48px;
+}
+
+/* .header {
+  color: white;
+  padding: 20px;
+  height: 328px;
+  width: 380px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  text-align: center;
+}
+
+.header.header-with-bg {
+  position: relative;
+  background: url("/img/download.png") no-repeat center top / cover;
+  overflow: hidden;
+}
+
+
+.header.header-with-bg::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url("/img/4261a498008491182b5e9073134d9415d7316619.jpg") no-repeat
+    center top / cover;
+  opacity: 0.55; 
+  z-index: 1;
+}
+
+
+.header * {
+  position: relative;
+  z-index: 2;
+} */
+
+/* Thanh trên cùng */
+.top-bar {
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 380px; /* khớp với .app */
+  opacity: 0.8;
+  height: 48px;
+  padding: 12px 16px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  background-color: rgb(0 56 103 / 65%); /* viết rgba thay cho rgb/alpha */
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px); /* cho Safari */
+
+  color: white;
+  z-index: 1000;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+.menu-icon {
+  font-size: 20px;
+  color: white;
+  z-index: 2;
+}
+.title {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 18px;
+  font-weight: 600;
+  color: white;
+}
+
+.calendar-box {
+  background: white;
+  border-radius: 12px;
+  padding: 12px;
+  width: 100%;
+  max-width: 360px;
+  margin: auto;
+}
+
+.calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 600;
+  font-size: 15px;
+  padding: 4px 0 8px;
+}
+
+.calendar-weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  text-align: center;
+  font-size: 12px;
+  color: #666;
+  margin-bottom: 6px;
+}
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  text-align: center;
+  gap: 4px;
+  font-size: 12px;
+}
+
+.calendar-day {
+  padding: 6px 2px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+}
+
+.calendar-day .solar {
+  font-size: 14px;
+}
+
+.calendar-day .lunar {
+  font-size: 10px;
+  color: #888;
+}
+
+.calendar-day.selected {
+  background-color: var(--primary-blue);
+  color: white;
+  font-weight: bold;
+}
+
+.calendar-day.selected .lunar {
+  color: #e0ecff;
+}
+
+.calendar-day.other-month {
+  color: #ccc;
+}
+
+.calendar-arrow-down {
+  text-align: center;
+  margin-top: 8px;
+  color: #888;
+}
+
+.calendar-info {
+  display: flex;
+  justify-content: space-between;
+  background: white;
+  margin: 12px auto;
+  padding: 16px 8px;
+  border-radius: 12px;
+  max-width: 360px;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.06);
+}
+
+.calendar-column {
+  width: 45%;
+  text-align: center;
+}
+
+.label-small {
+  font-size: 12px;
+  color: #666;
+  font-weight: 500;
+}
+
+.label-gray {
+  font-size: 14px;
+  color: #aaa;
+  font-weight: 500;
+  margin: 4px 0;
+}
+
+.calendar-column .day {
+  font-size: 32px;
+  font-weight: bold;
+  color: var(--primary-blue);
+}
+
+.calendar-column .label {
+  font-size: 14px;
+  color: #444;
+}
+
+.divider-vertical {
+  width: 1px;
+  background-color: #ddd;
+  height: 80px;
+  opacity: 0.5;
+}
+
+/* showlich */
+.calendar-grid.collapsed {
+  height: calc(100% / 6); /* chỉ hiển thị 1 hàng */
+  overflow: hidden;
+}
+.calendar-grid {
+  max-height: 1000px;
+  overflow: hidden;
+  transition: max-height 0.4s ease;
+}
+
+.calendar-grid.collapsed {
+  max-height: 45px; /* chỉ khoảng 1 hàng */
+}
+
+/* 1 nữa dưới */
+.section {
+  padding: 16px;
+  background: linear-gradient(to top, #fbfcff, #e8f1ff, #78a8f6);
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+  margin-top: -20px; /* khéo léo đẩy lên sát phần header */
+  z-index: 10;
+  position: relative;
+}
+
+.uv-date-box {
+  background: white;
+  padding: 12px 16px;
+  border-radius: 16px;
+  font-size: 16px;
+  font-weight: 500;
+  text-align: center;
+  color: #333;
+  margin-bottom: 16px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.weather-info-container {
+  font-family: "Arial", sans-serif;
+  color: #333;
+  border-radius: 10px;
+  padding: 10px;
+  width: 100%;
+  max-width: 600px;
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.top-row .info-box {
+  flex: 1;
+  background: #f9f9f9;
+  border-radius: 12px;
+  padding: 10px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.info-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 8px;
+}
+.icon-circle {
+  width: 32px;
+  height: 32px;
+  background-color: #e3f2fd; /* xanh dương nhạt */
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon-circle i {
+  color: #2196f3; /* xanh dương đậm */
+  font-size: 14px;
+}
+
+.info-value {
+  font-size: 24px;
+  font-weight: bold;
+  color: #2196f3;
+}
+
+.wind-section {
+  background: #f9f9f9;
+  border-radius: 12px;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.wind-details {
+  flex: 1;
+}
+
+.section-title {
+  font-weight: bold;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.wind-info .wind-item {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+}
+
+.wind-value {
+  color: #2196f3;
+  font-weight: 500;
+}
+
+.wind-speed {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.wind-icon {
+  font-size: 20px;
+  color: #2196f3;
+  margin-bottom: 6px;
+}
+
+.wind-info hr {
+  border: none;
+  border-top: 1px solid #ddd;
+  margin: 6px 0;
+}
+
+.wind-item {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  margin: 10px 0;
+  padding: 4px 0;
+}
+
+.compass {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  border: 2px dotted #ccc;
+  border-radius: 50%;
+  margin: auto;
+}
+
+.direction {
+  position: absolute;
+  font-size: 12px;
+  font-weight: bold;
+  color: #666;
+}
+
+.direction.n {
+  top: 5px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.direction.s {
+  bottom: 5px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.direction.w {
+  left: 5px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.direction.e {
+  right: 5px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.center-speed {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-weight: bold;
+  text-align: center;
+  font-size: 18px;
+}
+
+.center-speed span {
+  font-size: 12px;
+  color: #777;
+}
+.card {
+  background: white; /* màu xanh sáng trong suốt */
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border-radius: 16px;
+  padding: 16px;
+  color: #333;
+  margin-bottom: 12px;
+  text-align: center;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
+}
+.card-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+.card.small {
+  flex: 1;
+  text-align: center;
+  padding: 16px;
+  position: relative;
+}
+
+.icon-corner {
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  font-size: 14px;
+  opacity: 0.6;
+}
+
+.label {
+  font-size: 14px;
+  opacity: 0.9;
+}
+
+.value {
+  font-size: 24px;
+  font-weight: bold;
+  margin-top: 6px;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 5px;
+}
+
+.row .card.small {
+  /* flex: 59; */
+  width: 160px;
+  margin: 5px;
+  min-height: 100px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.card.small {
+  text-align: left; /* căn trái toàn bộ trong card */
+}
+.card .value {
+  font-size: 24px;
+  font-weight: bold;
+  margin-top: 6px;
+  text-align: left;
+  line-height: 1.2;
+  display: flex;
+  align-items: center;
+  gap: 6px; /* khoảng cách giữa số và chữ "Tốt" */
+}
+
+.card .value span {
+  font-size: 12px;
+  font-weight: normal;
+  color: #eee;
+  margin-top: 8px;
+}
+
+.label-with-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 8px;
+}
+
+.label-with-icon .label {
+  transform: translateX(-10px);
+  color: #2196f3;
+}
+
+.icon-circle {
+  width: 28px;
+  height: 28px;
+  background-color: #e3f2fd; /* nền xanh dương nhạt */
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon-circle i {
+  color: #2196f3; /* xanh dương đậm */
+  font-size: 14px;
+}
+.arrow {
+  width: 40px;
+  height: 2px;
+  background: #333;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform-origin: left center;
+  border-radius: 2px;
+}
+
+.direction-label {
+  position: absolute;
+  font-size: 12px;
+  color: #666;
+}
+
+.direction-label.top {
+  top: 5px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.direction-label.bottom {
+  bottom: 5px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.direction-label.left {
+  left: 5px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.direction-label.right {
+  right: 5px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.wind-speed-value {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 20px;
+}
+
+.wind-speed-value span {
+  font-size: 14px;
+}
+
+/* footer */
+.bottom-nav {
+  display: flex;
+  justify-content: space-around;
+  padding: 10px;
+  background-color: white;
+  position: sticky;
+  bottom: 0;
+  z-index: 1000;
+  border-top: 1px solid #eee;
+}
+
+.bottom-nav div {
+  text-align: center;
+  font-size: 12px;
+  color: var(--gray);
+}
+.bottom-nav a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.bottom-nav div.active {
+  color: var(--primary-blue);
+  font-weight: 600;
+}

@@ -1,0 +1,505 @@
+:root {
+  --primary-blue: #2e7cf6;
+  --text-dark: #333;
+  --text-light: #fff;
+  --uv-low: #ffd873;
+  --background: #f9f9f9;
+  --gray: #888;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Inter", sans-serif;
+  background-color: var(--background);
+  color: var(--text-dark);
+}
+
+.app {
+  max-width: 380px;
+  margin: 0 auto;
+  background-color: #fff;
+  padding-top: 48px;
+}
+
+.header {
+  color: white;
+  padding: 20px;
+  height: 385px;
+  width: 380px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  text-align: center;
+}
+
+.header.header-with-bg {
+  position: relative;
+  background: url("/img/download.png") no-repeat center top / cover;
+  overflow: hidden;
+}
+
+/* Overlay mờ là ảnh chồng lên */
+.header.header-with-bg::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url("/img/4261a498008491182b5e9073134d9415d7316619.jpg") no-repeat
+    center top / cover;
+  opacity: 0.55; /* chỉnh độ mờ ở đây */
+  z-index: 1;
+}
+
+/* Toàn bộ nội dung hiển thị trên cùng */
+.header * {
+  position: relative;
+  z-index: 2;
+}
+
+/* Thanh trên cùng */
+.top-bar {
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 380px; /* khớp với .app */
+  opacity: 0.8;
+  height: 48px;
+  padding: 12px 16px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  background-color: rgb(0 56 103 / 65%); /* viết rgba thay cho rgb/alpha */
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px); /* cho Safari */
+
+  color: white;
+  z-index: 1000;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.btn-licham {
+  background-color: white;
+  color: rgb(255, 0, 0);
+  border: none;
+  padding: 6px 20px;
+  border-radius: 16px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-licham.hidden {
+  display: none;
+}
+
+.top-bar.scrolled {
+  background-color: rgb(0 56 103 / 65%);
+  color: #333;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.top-bar.scrolled .menu-icon,
+.top-bar.scrolled .title {
+  color: white;
+}
+
+.menu-icon {
+  font-size: 20px;
+  color: white;
+  z-index: 2;
+}
+
+.title {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 18px;
+  font-weight: 600;
+  color: white;
+}
+
+.location {
+  font-size: 14px;
+  padding-right: 16px;
+  padding-left: 16px;
+  gap: 2px;
+}
+.location i {
+  margin-right: 4px;
+  color: #ffff;
+}
+
+.temperature-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.weather-icon {
+  font-size: 36px;
+  color: white; /* hoặc #fff, tuỳ theme */
+}
+
+.temperature {
+  font-size: 56px; /* 👉 chữ TO */
+  font-weight: 700;
+  color: white;
+}
+
+.temperature-wrapper img {
+  width: 30px;
+  height: 30px;
+}
+.feels-like {
+  font-size: 14px;
+  color: #e0e0e0;
+}
+
+.zalo-follow {
+  margin-top: 10px;
+  margin-bottom: 25px;
+  display: inline-block;
+  padding: 6px 14px;
+  border-radius: 20px;
+  background: white;
+  color: var(--primary-blue);
+  font-weight: 600;
+  font-size: 14px;
+  text-align: center;
+}
+
+.section {
+  padding: 16px;
+  background: #ffffff; /* hoặc màu nền phù hợp */
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+  margin-top: -20px; /* khéo léo đẩy lên sát phần header */
+  z-index: 10;
+  position: relative;
+}
+
+.uv-box {
+  background: linear-gradient(to top, #ffffff, #f8ecbe);
+  border-radius: 16px;
+  padding: 16px;
+  text-align: center;
+  margin-bottom: 16px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.uv-level {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin: 10px 0;
+}
+
+.uv-level img {
+  width: 24px;
+  height: 24px;
+}
+
+.uv-number {
+  font-size: 24px;
+  color: #f4b400;
+  font-weight: bold;
+}
+
+.uv-label {
+  font-size: 14px;
+  color: #999;
+}
+
+.uv-progress {
+  width: 100%;
+  height: 3px;
+  background: #eee;
+  border-radius: 3px;
+  margin: 10px 0;
+}
+
+.uv-bar {
+  width: 30%;
+  height: 100%;
+  background: linear-gradient(to right, #a4d84c, #ffdd57);
+  border-radius: 3px;
+}
+
+.uv-desc-box {
+  background: #fff;
+  border-radius: 10px;
+  padding: 20px;
+  margin-top: 10px;
+  font-size: 13px;
+}
+.divider {
+  width: 270px;
+  height: 1px;
+  background-color: #ccc; /* Hoặc #ccc nếu muốn nhẹ hơn */
+  margin: 10px auto;
+  border-radius: 1px;
+}
+
+.uv-link a {
+  color: #2e7cf6;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.weather-info-container {
+  font-family: "Arial", sans-serif;
+  color: #333;
+  border-radius: 10px;
+  padding: 10px;
+  background: white;
+  width: 100%;
+  max-width: 600px;
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.top-row .info-box {
+  flex: 1;
+  background: #f9f9f9;
+  border-radius: 12px;
+  padding: 10px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.info-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 8px;
+}
+.icon-circle {
+  width: 32px;
+  height: 32px;
+  background-color: #e3f2fd; /* xanh dương nhạt */
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon-circle i {
+  color: #2196f3; /* xanh dương đậm */
+  font-size: 14px;
+}
+
+.info-value {
+  font-size: 24px;
+  font-weight: bold;
+  color: #2196f3;
+}
+
+.wind-section {
+  background: #f9f9f9;
+  border-radius: 12px;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.wind-details {
+  flex: 1;
+}
+
+.section-title {
+  font-weight: bold;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.wind-info .wind-item {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+}
+
+.wind-value {
+  color: #2196f3;
+  font-weight: 500;
+}
+
+.wind-speed {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.wind-icon {
+  font-size: 20px;
+  color: #2196f3;
+  margin-bottom: 6px;
+}
+
+.wind-info hr {
+  border: none;
+  border-top: 1px solid #ddd;
+  margin: 6px 0;
+}
+
+.wind-item {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  margin: 10px 0;
+  padding: 4px 0;
+}
+
+.compass {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  border: 2px dotted #ccc;
+  border-radius: 50%;
+  margin: auto;
+}
+
+.direction {
+  position: absolute;
+  font-size: 12px;
+  font-weight: bold;
+  color: #666;
+}
+
+.direction.n {
+  top: 5px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.direction.s {
+  bottom: 5px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.direction.w {
+  left: 5px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.direction.e {
+  right: 5px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.center-speed {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-weight: bold;
+  text-align: center;
+  font-size: 18px;
+}
+
+.center-speed span {
+  font-size: 12px;
+  color: #777;
+}
+
+.arrow {
+  width: 40px;
+  height: 2px;
+  background: #333;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform-origin: left center;
+  border-radius: 2px;
+}
+
+.direction-label {
+  position: absolute;
+  font-size: 12px;
+  color: #666;
+}
+
+.direction-label.top {
+  top: 5px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.direction-label.bottom {
+  bottom: 5px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.direction-label.left {
+  left: 5px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.direction-label.right {
+  right: 5px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.wind-speed-value {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 20px;
+}
+
+.wind-speed-value span {
+  font-size: 14px;
+}
+
+.bottom-nav {
+  display: flex;
+  justify-content: space-around;
+  padding: 10px;
+  background-color: white;
+  position: sticky;
+  bottom: 0;
+  z-index: 1000;
+  border-top: 1px solid #eee;
+}
+
+.bottom-nav div {
+  text-align: center;
+  font-size: 12px;
+  color: var(--gray);
+}
+.bottom-nav a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.bottom-nav div.active {
+  color: var(--primary-blue);
+  font-weight: 600;
+}

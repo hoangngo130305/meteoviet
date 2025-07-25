@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Thời tiết - Meteo Việt</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+
+    <link rel="stylesheet" href="licham.css" />
+  </head>
+  <body>
+    <div class="app">
+      <div class="top-bar fixed-bar">
+        <div class="menu-icon">☰</div>
+        <div class="title">LỊCH ÂM</div>
+        <!-- <button class="btn-licham hidden">Lịch âm</button> -->
+      </div>
+
+      <div class="calendar-box">
+        <div class="calendar-header">
+          <i class="fa-solid fa-chevron-left" onclick="changeMonth(-1)"></i>
+          <span id="calendar-month">Tháng 7, 2025</span>
+          <i class="fa-solid fa-chevron-right" onclick="changeMonth(1)"></i>
+        </div>
+
+        <div class="calendar-weekdays">
+          <div>T2</div>
+          <div>T3</div>
+          <div>T4</div>
+          <div>T5</div>
+          <div>T6</div>
+          <div>T7</div>
+          <div>CN</div>
+        </div>
+
+        <div class="calendar-grid" id="calendar-grid">
+          <!-- Ngày sẽ được tạo bằng JavaScript -->
+        </div>
+
+        <div class="calendar-arrow-down" onclick="toggleCalendarView()">
+          <i class="fa-solid fa-chevron-down" id="toggle-arrow"></i>
+        </div>
+      </div>
+
+      <div class="calendar-info">
+        <div class="calendar-column">
+          <div class="label-small">Dương lịch</div>
+          <div class="label-gray">Ngày</div>
+          <div class="day" id="solar-day">--</div>
+          <div class="label" id="solar-label">--</div>
+        </div>
+        <div class="divider-vertical"></div>
+        <div class="calendar-column">
+          <div class="label-small">Âm lịch</div>
+          <div class="label-gray">Ngày</div>
+          <div class="day" id="lunar-day">--</div>
+          <div class="label" id="lunar-label">--</div>
+        </div>
+      </div>
+
+      <div class="section">
+        <!-- Box UV -->
+        <div class="uv-date-box">
+          <p>Thứ 7, ngày 6 tháng 4</p>
+        </div>
+
+        <!-- Grid thông tin khác -->
+        <div class="weather-info-container">
+          <!-- Hàng 1: Độ ẩm & Lượng mưa -->
+          <div class="info-row top-row">
+            <div class="info-box">
+              <div class="info-header">
+                <span>Độ ẩm</span>
+                <div class="icon-circle">
+                  <i class="fa-solid fa-droplet"></i>
+                </div>
+              </div>
+              <div class="info-value">55%</div>
+            </div>
+            <div class="info-box">
+              <div class="info-header">
+                <span>Lượng mưa</span>
+                <div class="icon-circle">
+                  <i class="fa-solid fa-droplet"></i>
+                </div>
+              </div>
+              <div class="info-value">0 mm</div>
+            </div>
+          </div>
+
+          <!-- Hàng 2: Gió -->
+          <div class="info-row wind-section">
+            <div class="wind-details">
+              <div class="section-title">Gió</div>
+              <div class="wind-info">
+                <div class="wind-item">
+                  <span>Gió</span>
+                  <span class="wind-value">11 km/h</span>
+                </div>
+                <hr />
+                <div class="wind-item">
+                  <span>Gió giật</span>
+                  <span class="wind-value">24 km/h</span>
+                </div>
+                <hr />
+                <div class="wind-item">
+                  <span>Hướng gió</span>
+                  <span class="wind-value">133° ĐN</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="wind-speed">
+              <!-- Icon nằm trên đầu đồng hồ -->
+              <div class="wind-icon">
+                <i class="fa-solid fa-wind"></i>
+              </div>
+
+              <div class="compass">
+                <div class="direction n">N</div>
+                <div class="direction s">S</div>
+                <div class="direction w">W</div>
+                <div class="direction e">E</div>
+
+                <div class="center-speed">11<br /><span>m/s</span></div>
+                <div class="arrow" style="transform: rotate(150deg)"></div>
+              </div>
+            </div>
+          </div>
+          <div class="info-row top-row">
+            <div class="info-box">
+              <div class="info-header">
+                <span>Mây che phủ</span>
+                <div class="icon-circle">
+                  <i class="fa-solid fa-cloud"></i>
+                </div>
+              </div>
+              <div class="info-value">91%</div>
+            </div>
+            <div class="info-box">
+              <div class="info-header">
+                <span>Tầm nhìn</span>
+                <div class="icon-circle">
+                  <i class="fa-solid fa-eye"></i>
+                </div>
+              </div>
+              <div class="info-value">22 km</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- footer -->
+      <div class="bottom-nav">
+        <div class="nav-item">
+          <i class="fa-solid fa-calendar-days"></i>
+          <a href="/index.html"><div>Hôm nay</div></a>
+        </div>
+        <div class="nav-item">
+          <i class="fa-solid fa-clock"></i>
+          <a href="/homnay2.html"><div>Theo giờ</div></a>
+        </div>
+        <div class="nav-item">
+          <i class="fa-solid fa-calendar-day"></i>
+          <a href="/hangngay.html"><div>Hằng ngày</div></a>
+        </div>
+        <div class="nav-item">
+          <i class="fa-solid fa-chart-simple"></i>
+          <a href="/thuyvan.html"><div>Thủy văn</div></a>
+        </div>
+        <div class="nav-item">
+          <i class="fa-solid fa-calendar-minus"></i>
+          <a href="/licham.html"><div>Lịch âm</div></a>
+        </div>
+      </div>
+    </div>
+    <script>
+      const calendarGrid = document.getElementById("calendar-grid");
+      const solarDay = document.getElementById("solar-day");
+      const solarLabel = document.getElementById("solar-label");
+      const lunarDay = document.getElementById("lunar-day");
+      const lunarLabel = document.getElementById("lunar-label");
+      const calendarMonthText = document.getElementById("calendar-month");
+
+      let currentDate = new Date();
+
+      function renderCalendar(date = new Date()) {
+        calendarGrid.innerHTML = "";
+        const year = date.getFullYear();
+        const month = date.getMonth();
+        const firstDay = new Date(year, month, 1);
+        const lastDay = new Date(year, month + 1, 0);
+        const firstWeekday = firstDay.getDay() || 7;
+        const totalDays = lastDay.getDate();
+
+        const daysInPrevMonth = new Date(year, month, 0).getDate();
+        const days = [];
+
+        // Ngày của tháng trước
+        for (let i = firstWeekday - 1; i > 0; i--) {
+          const d = daysInPrevMonth - i + 1;
+          days.push({ solar: d, lunar: getFakeLunar(d), other: true });
+        }
+
+        // Ngày trong tháng hiện tại
+        for (let d = 1; d <= totalDays; d++) {
+          days.push({ solar: d, lunar: getFakeLunar(d), other: false });
+        }
+
+        // Ngày tháng sau
+        const remaining = 42 - days.length;
+        for (let d = 1; d <= remaining; d++) {
+          days.push({ solar: d, lunar: getFakeLunar(d), other: true });
+        }
+
+        days.forEach((day) => {
+          const div = document.createElement("div");
+          div.className = "calendar-day" + (day.other ? " other-month" : "");
+          div.innerHTML = `<span class="solar">${day.solar}</span><span class="lunar">${day.lunar}</span>`;
+
+          div.onclick = () => {
+            // Xoá tất cả .selected cũ
+            document
+              .querySelectorAll(".calendar-day")
+              .forEach((d) => d.classList.remove("selected"));
+            // Thêm class selected cho ngày được chọn
+            div.classList.add("selected");
+
+            // Cập nhật thông tin ngày dương/âm
+            if (!day.other) {
+              const currentMonth = currentDate.getMonth() + 1;
+              const currentYear = currentDate.getFullYear();
+              solarDay.textContent = day.solar.toString().padStart(2, "0");
+              solarLabel.textContent = `Tháng ${currentMonth}, ${currentYear}`;
+              lunarDay.textContent = day.lunar;
+              lunarLabel.textContent = `Tháng ${currentMonth}, ất tỵ`;
+            }
+          };
+
+          calendarGrid.appendChild(div);
+        });
+
+        calendarMonthText.textContent = `Tháng ${month + 1}, ${year}`;
+      }
+
+      function getFakeLunar(solar) {
+        // Mô phỏng âm lịch (chỉ dùng để demo giao diện)
+        return solar + 3 > 30
+          ? (solar + 3 - 30).toString().padStart(2, "0")
+          : (solar + 3).toString().padStart(2, "0");
+      }
+
+      function changeMonth(step) {
+        currentDate.setMonth(currentDate.getMonth() + step);
+        renderCalendar(currentDate);
+      }
+
+      renderCalendar(currentDate);
+
+      // showlich
+
+      let isExpanded = true;
+
+      function toggleCalendarView() {
+        const grid = document.getElementById("calendar-grid");
+        const arrow = document.getElementById("toggle-arrow");
+
+        if (isExpanded) {
+          grid.classList.add("collapsed");
+          arrow.classList.remove("fa-chevron-down");
+          arrow.classList.add("fa-chevron-up");
+        } else {
+          grid.classList.remove("collapsed");
+          arrow.classList.remove("fa-chevron-up");
+          arrow.classList.add("fa-chevron-down");
+        }
+
+        isExpanded = !isExpanded;
+      }
+
+      const currentPath = window.location.pathname.split("/").pop(); // "index.html", "licham.html"...
+
+      document.querySelectorAll(".bottom-nav a").forEach((link) => {
+        const href = link.getAttribute("href").split("/").pop();
+
+        if (
+          currentPath === href ||
+          (currentPath === "" && href === "index.html")
+        ) {
+          link.querySelector("div").classList.add("active");
+        }
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hôm nay</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="homnay.css" />
+    <link rel="icon" href="favicon.ico" type="image/x-icon" />
+  </head>
+  <body>
+    <div class="app">
+      <!-- Thanh trên cùng -->
+      <div class="top-bar fixed-bar">
+        <div class="menu-icon">☰</div>
+        <div class="title">HỒ CHÍ MINH</div>
+        <div></div>
+      </div>
+
+      <!--  Header có nền + thông tin tóm tắt -->
+      <div class="header header-with-bg">
+        <div class="location">
+          <div class="summary-left">
+            <p class="summary-time">08:00 - Thứ 2, 22/04/2024</p>
+            <div class="summary-weather">🌤 Trời nắng nhẹ</div>
+          </div>
+          <button class="button-1">
+            <div class="zalo-follow">+ Follow Zalo OA</div>
+          </button>
+        </div>
+
+        <!--  Nội dung dự báo thời tiết -->
+        <div class="section weather-body">
+          <!-- Chỉ số UV -->
+          <a href="homnay2.html" class="card-link">
+            <div class="card uv-card">
+              <p class="label">Chỉ số UV:</p>
+              <div class="uv-value">
+                <img src="img/sun.png" alt="UV icon" />
+                <span>2</span>
+              </div>
+              <div class="uv-detail">
+                <div class="uv-box">
+                  Mức phơi nhiễm hiện tại:<br /><strong>Thấp</strong>
+                </div>
+                <div class="uv-box">
+                  Chỉ số Uv tối đa hôm nay:<br /><strong>9</strong>
+                </div>
+              </div>
+              <p class="uv-note">
+                <i class="fa-solid fa-lightbulb"></i>
+                Bạn có thể an toàn ở ngoài đường khi<br />không cần sử dụng biện
+                pháp chống nắng
+              </p>
+            </div>
+          </a>
+        </div>
+
+        <!-- Cảm nhận và độ ẩm -->
+        <!-- <div class="section-content"> -->
+        <div class="row">
+          <div class="card small">
+            <div class="label-with-icon">
+              <p class="label">Cảm nhận</p>
+              <div class="icon-circle">
+                <i class="fa-solid fa-thermometer"></i>
+              </div>
+            </div>
+            <p class="value">29°</p>
+          </div>
+
+          <div class="card small">
+            <div class="label-with-icon">
+              <p class="label">Độ ẩm</p>
+              <div class="icon-circle">
+                <i class="fa-solid fa-droplet"></i>
+              </div>
+            </div>
+            <p class="value">90%</p>
+          </div>
+        </div>
+
+        <!-- Gió -->
+        <div class="info-row wind-section">
+          <div class="wind-details">
+            <div class="section-title">Gió</div>
+            <div class="wind-info">
+              <div class="wind-item">
+                <span>Gió</span>
+                <span class="wind-value">11 km/h</span>
+              </div>
+              <hr />
+              <div class="wind-item">
+                <span>Gió giật</span>
+                <span class="wind-value">24 km/h</span>
+              </div>
+              <hr />
+              <div class="wind-item">
+                <span>Hướng gió</span>
+                <span class="wind-value">133° ĐN</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="wind-speed">
+            <!-- Icon nằm trên đầu đồng hồ -->
+            <div class="wind-icon">
+              <i class="fa-solid fa-wind"></i>
+            </div>
+
+            <div class="compass">
+              <div class="direction n">N</div>
+              <div class="direction s">S</div>
+              <div class="direction w">W</div>
+              <div class="direction e">E</div>
+
+              <div class="center-speed">11<br /><span>m/s</span></div>
+              <div class="arrow" style="transform: rotate(150deg)"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Thông số khác -->
+        <div class="row">
+          <div class="card small">
+            <div class="label-with-icon">
+              <p class="label">Chất lượng không khí</p>
+              <div class="icon-circle">
+                <i class="fa-solid fa-smog"></i>
+              </div>
+            </div>
+            <p class="value">37 <span>Tốt</span></p>
+          </div>
+
+          <div class="card small">
+            <div class="label-with-icon">
+              <p class="label">Lượng mưa</p>
+              <div class="icon-circle">
+                <i class="fa-solid fa-cloud-rain"></i>
+              </div>
+            </div>
+            <p class="value">0 mm</p>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="card small">
+            <div class="label-with-icon">
+              <p class="label">Mây che phủ</p>
+              <div class="icon-circle">
+                <i class="fa-solid fa-cloud"></i>
+              </div>
+            </div>
+            <p class="value">91%</p>
+          </div>
+
+          <div class="card small">
+            <div class="label-with-icon">
+              <p class="label">Tầm nhìn</p>
+              <div class="icon-circle">
+                <i class="fa-solid fa-eye"></i>
+              </div>
+            </div>
+            <p class="value">22 km</p>
+          </div>
+        </div>
+        <!-- </div> -->
+      </div>
+      <!-- Footer -->
+      <div class="bottom-nav">
+        <div class="nav-item">
+          <i class="fa-solid fa-calendar-days"></i>
+          <a href="/index.html"><div class="active">Hôm nay</div></a>
+        </div>
+        <div class="nav-item">
+          <i class="fa-solid fa-clock"></i>
+          <a href="/homnay2.html"><div>Theo giờ</div></a>
+        </div>
+        <div class="nav-item">
+          <i class="fa-solid fa-calendar-day"></i>
+          <a href="hangngay.html"><div>Hằng ngày</div></a>
+        </div>
+        <div class="nav-item">
+          <i class="fa-solid fa-chart-simple"></i>
+          <a href="/thuyvan.html"><div>Thủy văn</div></a>
+        </div>
+        <div class="nav-item">
+          <i class="fa-solid fa-calendar-minus"></i>
+          <a href="/licham.html"><div>Lịch âm</div></a>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const currentPath = window.location.pathname.split("/").pop(); // "index.html", "licham.html"...
+
+      document.querySelectorAll(".bottom-nav a").forEach((link) => {
+        const href = link.getAttribute("href").split("/").pop();
+
+        if (
+          currentPath === href ||
+          (currentPath === "" && href === "index.html")
+        ) {
+          link.querySelector("div").classList.add("active");
+        }
+      });
+    </script>
+  </body>
+</html>
