@@ -24,10 +24,25 @@
       <button class="btn-licham hidden">Lịch âm</button>
     </div>
     <div class="header header-with-bg">
-      <p class="location">
-        Meteo Viet<br />
-        <span><i class="fa-solid fa-location-dot"></i> Quận 1, HCM</span>
-      </p>
+<p class="location">
+  Meteo Viet<br />
+<p class="location">
+  <span>
+    <i class="fa-solid fa-location-dot"></i> 
+    <select id="province-select">
+      <option value="">Tỉnh</option>
+    </select>
+    <select id="district-select">
+      <option value="">Huyện</option>
+    </select>
+    <select id="ward-select">
+      <option value="">Xã</option>
+    </select>
+  </span>
+</p>
+
+</p>
+
       <div>Đôi khi lúc có mưa và giông tiếp tục kéo dài trong 54 phút</div>
       <div class="temperature-wrapper">
         <img src="img/cloudy.png" alt="mattroi icon" />
@@ -151,38 +166,194 @@
         </div>
       </div>
     </div>
-    <script>
-  const topBar = document.querySelector('.top-bar');
-  const lichAmBtn = document.querySelector('.btn-licham');
+<script>
+const topBar = document.querySelector('.top-bar');
+const lichAmBtn = document.querySelector('.btn-licham');
+const API = "http://127.0.0.1:8000/api";
 
-  window.addEventListener('scroll', () => {
-    const scrollY = window.scrollY;
+const provinceSelect = document.getElementById("province-select");
+const districtSelect = document.getElementById("district-select");
+const wardSelect = document.getElementById("ward-select");
 
-    if (scrollY > 250) { // Ngưỡng: cuộn qua phần header
-      topBar.classList.add('scrolled');
-      lichAmBtn.classList.remove('hidden');
-    } else {
-      topBar.classList.remove('scrolled');
-      lichAmBtn.classList.add('hidden');
-    }
-  });
-  
-
-//  doimau
-const currentPath = window.location.pathname.split("/").pop();
-
-document.querySelectorAll(".bottom-nav .nav-item").forEach(item => {
-  const link = item.querySelector("a");
-  const href = link.getAttribute("href").split("/").pop();
-
-  if (currentPath === href || (currentPath === "" && href === "index.html")) {
-    item.classList.add("active");
+// Cuộn
+window.addEventListener('scroll', () => {
+  const scrollY = window.scrollY;
+  if (scrollY > 250) {
+    topBar.classList.add('scrolled');
+    lichAmBtn.classList.remove('hidden');
+  } else {
+    topBar.classList.remove('scrolled');
+    lichAmBtn.classList.add('hidden');
   }
 });
 
+// Đổi màu menu
+const currentPath = window.location.pathname.split("/").pop();
+document.querySelectorAll(".bottom-nav a").forEach(link => {
+  const href = link.getAttribute("href").split("/").pop();
+  if (currentPath === href || (currentPath === "" && href === "index.html")) {
+    link.querySelector("div").classList.add("active");
+  }
+});
 
+// Load tỉnh
+fetch(`${API}/provinces/`)
+  .then(res => res.json())
+  .then(data => {
+    data.forEach(p => {
+      const option = document.createElement("option");
+      option.value = p.province_id;
+      option.textContent = p.name;
+      provinceSelect.appendChild(option);
+    });
 
+    // Gán lại lựa chọn nếu có
+    const savedProvince = localStorage.getItem("selectedProvinceId");
+    if (savedProvince) {
+      provinceSelect.value = savedProvince;
+      provinceSelect.dispatchEvent(new Event("change"));
+    }
+  });
+
+// Khi chọn tỉnh
+provinceSelect.addEventListener("change", function () {
+  const provinceId = this.value;
+  localStorage.setItem("selectedProvinceId", provinceId);
+  districtSelect.innerHTML = '<option value="">-- Chọn Huyện --</option>';
+  wardSelect.innerHTML = '<option value="">-- Chọn Xã --</option>';
+
+  fetch(`${API}/districts/?province_id=${provinceId}`)
+    .then(res => res.json())
+    .then(data => {
+      data.forEach(d => {
+        const option = document.createElement("option");
+        option.value = d.district_id;
+        option.textContent = d.name;
+        districtSelect.appendChild(option);
+      });
+
+      const savedDistrict = localStorage.getItem("selectedDistrictId");
+      if (savedDistrict) {
+        districtSelect.value = savedDistrict;
+        districtSelect.dispatchEvent(new Event("change"));
+      }
+    });
+});
+
+// Khi chọn huyện
+districtSelect.addEventListener("change", function () {
+  const districtId = this.value;
+  localStorage.setItem("selectedDistrictId", districtId);
+  wardSelect.innerHTML = '<option value="">-- Chọn Xã --</option>';
+
+  fetch(`${API}/wards/?district_id=${districtId}`)
+    .then(res => res.json())
+    .then(data => {
+      data.forEach(w => {
+        const option = document.createElement("option");
+        option.value = w.ward_id;
+        option.textContent = w.name;
+        wardSelect.appendChild(option);
+      });
+
+      const savedWard = localStorage.getItem("selectedWardId");
+      if (savedWard) {
+        wardSelect.value = savedWard;
+        wardSelect.dispatchEvent(new Event("change"));
+      }
+    });
+});
+
+// Khi chọn xã
+wardSelect.addEventListener("change", function () {
+  const wardId = this.value;
+  localStorage.setItem("selectedWardId", wardId);
+
+  if (wardId) {
+    fetch(`${API}/weather/?ward_id=${wardId}`)
+      .then(res => res.json())
+      .then(data => {
+        renderWeatherData(data);
+      });
+  }
+});
+
+// Khi tải lại trang
+window.addEventListener("DOMContentLoaded", () => {
+  const wardId = localStorage.getItem("selectedWardId");
+  if (wardId) {
+    fetch(`${API}/weather/?ward_id=${wardId}`)
+      .then(res => res.json())
+      .then(data => {
+        renderWeatherData(data);
+      });
+  }
+});
+
+// Hiển thị thời tiết
+function renderWeatherData(data) {
+  const temp = data.current.temp_c;
+  const feelsLike = data.current.feelslike_c;
+  const humidity = data.current.humidity;
+  const uv = data.current.uv;
+  const wind_kph = data.current.wind_kph;
+  const gust_kph = data.current.gust_kph;
+  const wind_dir = data.current.wind_dir;
+  const rain = data.forecast.forecastday[0].day.totalprecip_mm;
+  
+  
+
+  // Nhiệt độ + cảm nhận
+  document.querySelector(".temperature").textContent = `${temp}°C`;
+  document.querySelector(".feels-like").textContent = `Cảm nhận thực tế: ${feelsLike}°C`;
+
+  // Độ ẩm + mưa
+  const infoValues = document.querySelectorAll(".info-row.top-row .info-value");
+  if (infoValues.length >= 2) {
+    infoValues[0].textContent = `${humidity}%`;
+    infoValues[1].textContent = `${rain} mm`;
+  }
+
+  // UV
+  document.querySelector(".uv-number").textContent = uv;
+  document.querySelector(".uv-label").textContent = uv < 3 ? "Chỉ số UV thấp" : "Chỉ số UV cao";
+
+  // Gió
+  const windValues = document.querySelectorAll(".wind-info .wind-value");
+  console.log("wind_dir:", wind_dir);
+console.log("windValues:", windValues);
+  if (windValues.length >= 3) {
+    windValues[0].textContent = `${wind_kph} km/h`;
+    windValues[1].textContent = `${gust_kph} km/h`;
+    windValues[2].textContent = wind_dir;
+  }
+// Chuyển mã quốc tế sang tiếng Việt
+const windDirectionMap = {
+  "N": "Bắc",
+  "S": "Nam",
+  "E": "Đông",
+  "W": "Tây",
+  "NE": "Đông Bắc",
+  "NW": "Tây Bắc",
+  "SE": "Đông Nam",
+  "SW": "Tây Nam",
+  "NNE": "Bắc Đông Bắc",
+  "NNW": "Bắc Tây Bắc",
+  "SSE": "Nam Đông Nam",
+  "SSW": "Nam Tây Nam",
+  "ENE": "Đông Đông Bắc",
+  "ESE": "Đông Đông Nam",
+  "WSW": "Tây Tây Nam",
+  "WNW": "Tây Tây Bắc"
+};
+
+const wind_dir_vi = windDirectionMap[wind_dir] || wind_dir;
+windValues[2].textContent = `${wind_dir} (${wind_dir_vi})`;
+
+  document.querySelector(".center-speed").innerHTML = `${wind_kph}<br><span>km/h</span>`;
+}
 </script>
+
 
   </body>
   

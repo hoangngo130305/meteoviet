@@ -495,6 +495,43 @@ body {
   color: var(--gray);
 }
 
+
+.location {
+  font-size: 14px;
+  color: white;
+  text-align: center;
+}
+
+.location span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 6px;
+}
+
+.location i.fa-location-dot {
+  font-size: 14px;
+  color: #ffff;
+}
+
+.location select {
+  padding: 4px 10px;
+  font-size: 13px;
+  border-radius: 6px;
+  border: none;
+  outline: none;
+  background-color: #ffffffcc;
+  color: #333;
+  font-family: "Inter", sans-serif;
+  min-width: 100px;
+}
+
+.location select:focus {
+  outline: 2px solid #2e7cf6;
+}
+
 .bottom-nav .nav-item i {
   font-size: 16px; /* icon vừa phải */
   display: block;

@@ -105,13 +105,16 @@
       <div class="footer-bar">
         <div class="footer-left">
           <i class="fa-solid fa-map icon"></i>
-          <span class="label">Nhabe</span>
+          <select id="station-select">
+            <option value="">Chọn trạm thủy văn</option>
+          </select>
         </div>
 
         <div class="footer-right">
           <i class="fa-solid fa-chevron-down arrow"></i>
           <div class="footer-separator"></div>
-          <span class="label">23/04/2025</span>
+          <input type="date" id="date-picker" class="label" />
+
           <i class="fa-solid fa-chevron-down arrow"></i>
         </div>
       </div>
@@ -141,6 +144,7 @@
     </div>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
+      const API = "http://127.0.0.1:8000/api";
       const ctx = document.getElementById("tideChart").getContext("2d");
 
       function createGradient(ctx) {
@@ -150,137 +154,127 @@
         return gradient;
       }
 
-      const tideData = {
-        labels: [
-          "0h",
-          "2h",
-          "4h",
-          "6h",
-          "8h",
-          "10h",
-          "12h",
-          "14h",
-          "16h",
-          "18h",
-          "20h",
-          "22h",
-          "0h",
-        ],
-        datasets: [
-          {
-            label: "Mực nước (m)",
-            data: [
-              1.8, 2.5, 4.2, 3.0, 2.1, 1.3, 2.8, 3.0, 2.5, 2.1, 1.5, 1.1, 1.9,
-            ],
-            borderColor: "#2e7cf6",
-            backgroundColor: createGradient(ctx),
-            fill: true,
-            tension: 0.4,
-            pointBackgroundColor: "#ff4c4c",
-            pointRadius: 5,
-          },
-        ],
-      };
-
-      new Chart(ctx, {
+      const tideChart = new Chart(ctx, {
         type: "line",
-        data: tideData,
+        data: {
+          labels: [],
+          datasets: [
+            {
+              label: "Mực nước (m)",
+              data: [],
+              borderColor: "#2e7cf6",
+              backgroundColor: createGradient(ctx),
+              fill: true,
+              tension: 0.4,
+              pointBackgroundColor: "#ff4c4c",
+              pointRadius: 5,
+            },
+          ],
+        },
         options: {
           responsive: true,
           maintainAspectRatio: false,
+          plugins: { legend: { display: false } },
           scales: {
             y: {
               min: 0,
               max: 5,
               title: {
                 display: true,
-                text: "m", // Đơn vị hiển thị một lần ở đầu trục y
-                align: "start", // Hiển thị ở phía trên
-                color: "#333",
-                font: {
-                  size: 13,
-                  weight: "bold",
-                },
+                text: "m",
+                font: { weight: "bold" },
               },
-              ticks: {
-                stepSize: 1,
-                padding: 5,
-                color: "#444",
-                font: {
-                  size: 12,
-                },
-              },
-              grid: {
-                display: false, // ❌ ẩn gạch ngang
-              },
+              ticks: { stepSize: 1, color: "#444" },
+              grid: { display: false },
             },
             x: {
-              grid: {
-                display: false,
-              },
-              ticks: {
-                color: "#444",
-                font: {
-                  size: 12,
-                },
-              },
-            },
-          },
-          plugins: {
-            legend: { display: false },
-            tooltip: {
-              enabled: false,
-              external: function (context) {
-                const { chart, tooltip } = context;
-                const tooltipEl = getOrCreateTooltip(chart);
-
-                if (tooltip.opacity === 0) {
-                  tooltipEl.style.opacity = 0;
-                  return;
-                }
-
-                if (tooltip.body) {
-                  const dataPoint = tooltip.dataPoints[0];
-                  tooltipEl.innerHTML = `<div class="tooltip-label">${dataPoint.label}</div>`;
-                }
-
-                const { offsetLeft: positionX, offsetTop: positionY } =
-                  chart.canvas;
-
-                tooltipEl.style.opacity = 1;
-                tooltipEl.style.left = positionX + tooltip.caretX - 20 + "px";
-                tooltipEl.style.top = positionY + tooltip.caretY - 35 + "px";
-              },
+              ticks: { color: "#444" },
+              grid: { display: false },
             },
           },
         },
       });
 
-      function getOrCreateTooltip(chart) {
-        let tooltipEl = chart.canvas.parentNode.querySelector(".chart-tooltip");
+      const stationSelect = document.getElementById("station-select");
+      const dateInput = document.getElementById("date-picker");
 
-        if (!tooltipEl) {
-          tooltipEl = document.createElement("div");
-          tooltipEl.classList.add("chart-tooltip");
-          chart.canvas.parentNode.appendChild(tooltipEl);
-        }
+      // Load danh sách trạm thủy văn
+      fetch(`${API}/stations/`)
+        .then((res) => res.json())
+        .then((data) => {
+          data.forEach((station) => {
+            const option = document.createElement("option");
+            option.value = station.station_id;
+            option.textContent = station.station_name;
+            stationSelect.appendChild(option);
+          });
+        })
+        .catch((err) => console.error("Lỗi tải danh sách trạm:", err));
 
-        return tooltipEl;
+      // Load dữ liệu thủy văn khi chọn trạm hoặc ngày
+      function loadHydrologyDataByURL(url) {
+        fetch(url)
+          .then((res) => res.json())
+          .then((data) => {
+            if (!data || data.length === 0) return;
+
+            // Cập nhật các thẻ mực nước
+            const tideCols = document.querySelectorAll(".tide-col");
+            for (let i = 0; i < 4 && i < data.length; i++) {
+              const d = data[i];
+              const time = new Date(d.measurement_time).toLocaleTimeString(
+                "vi-VN",
+                {
+                  hour: "2-digit",
+                  minute: "2-digit",
+                }
+              );
+              tideCols[i].querySelector(".value").textContent =
+                d.water_level.toFixed(2);
+              tideCols[i].querySelector(".time").textContent = time;
+            }
+
+            // Cập nhật biểu đồ
+            const chartData = data.slice(0, 12).reverse();
+            tideChart.data.labels = chartData.map(
+              (d) => new Date(d.measurement_time).getHours() + "h"
+            );
+            tideChart.data.datasets[0].data = chartData.map(
+              (d) => d.water_level
+            );
+            tideChart.update();
+
+            // Hiển thị tên trạm và ngày
+            const newest = data[0];
+            document.querySelector(".footer-left .label").textContent =
+              newest.station.station_name;
+            dateInput.value = newest.measurement_time.split("T")[0];
+          })
+          .catch((err) => console.error("Lỗi khi tải dữ liệu thủy văn:", err));
       }
 
-      const currentPath = window.location.pathname.split("/").pop();
-
-      document.querySelectorAll(".bottom-nav .nav-item").forEach((item) => {
-        const link = item.querySelector("a");
-        const href = link.getAttribute("href").split("/").pop();
-
-        if (
-          currentPath === href ||
-          (currentPath === "" && href === "index.html")
-        ) {
-          item.classList.add("active");
+      // Khi chọn trạm
+      stationSelect.addEventListener("change", () => {
+        const stationId = stationSelect.value;
+        const date = dateInput.value;
+        if (stationId) {
+          let url = `${API}/hydrology/?station_id=${stationId}`;
+          if (date) url += `&date=${date}`;
+          loadHydrologyDataByURL(url);
         }
       });
+
+      // Khi chọn ngày
+      dateInput.addEventListener("change", () => {
+        const stationId = stationSelect.value;
+        const date = dateInput.value;
+        if (stationId) {
+          let url = `${API}/hydrology/?station_id=${stationId}&date=${date}`;
+          loadHydrologyDataByURL(url);
+        }
+      });
+
+      // Khi mở trang lần đầu (mặc định chưa có trạm nào) → có thể thêm station_id mặc định nếu cần
     </script>
   </body>
 </html>

@@ -3,250 +3,157 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Thời tiết - Meteo Việt</title>
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
-    />
-
+    <title>Hằng ngày - Meteo Việt</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
     <link rel="stylesheet" href="hangngay.css" />
   </head>
   <body>
     <div class="app">
       <div class="top-bar fixed-bar">
         <div class="menu-icon">☰</div>
-        <div class="title">HỒ CHÍ MINH</div>
-        <!-- <button class="btn-licham hidden">Lịch âm</button> -->
+        <div class="title" id="location-name">Địa phương</div>
       </div>
+
       <div class="header header-with-bg">
-        <div class="week-title">Tháng 4</div>
+        <div class="week-title" id="week-title">Tuần này</div>
         <div class="divider-line"></div>
-        <div class="weekly-scroll">
-          <!-- Day 1 -->
-          <div class="day-box active">
-            <div class="day">T5</div>
-            <div class="date active">04</div>
-            <img src="img/cloudy.png" />
-            <div class="temp">63°<br /><span>53°</span></div>
-            <div class="rain"><i class="fa-solid fa-droplet"></i> 50%</div>
-          </div>
-          <!-- Day 2 -->
-          <div class="day-box">
-            <div class="day">T6</div>
-            <div class="date">05</div>
-            <img src="img/cloudy.png" />
-            <div class="temp">63°<br /><span>53°</span></div>
-            <div class="rain"><i class="fa-solid fa-droplet"></i> 50%</div>
-          </div>
-          <!-- Day 3 -->
-          <div class="day-box">
-            <div class="day">T7</div>
-            <div class="date">06</div>
-            <img src="img/cloudy.png" />
-            <div class="temp">63°<br /><span>53°</span></div>
-            <div class="rain"><i class="fa-solid fa-droplet"></i> 50%</div>
-          </div>
-          <!-- Day 4 -->
-          <div class="day-box">
-            <div class="day">CN</div>
-            <div class="date">07</div>
-            <img src="img/cloudy.png" />
-            <div class="temp">63°<br /><span>53°</span></div>
-            <div class="rain"><i class="fa-solid fa-droplet"></i> 50%</div>
-          </div>
-          <!-- Day 5 -->
-          <div class="day-box">
-            <div class="day">T2</div>
-            <div class="date">08</div>
-            <img src="img/cloudy.png" />
-            <div class="temp">61°<br /><span>52°</span></div>
-            <div class="rain"><i class="fa-solid fa-droplet"></i> 40%</div>
-          </div>
-          <!-- Day 6 -->
-          <div class="day-box">
-            <div class="day">T3</div>
-            <div class="date">09</div>
-            <img src="img/cloudy.png" />
-            <div class="temp">62°<br /><span>51°</span></div>
-            <div class="rain"><i class="fa-solid fa-droplet"></i> 45%</div>
-          </div>
-          <!-- Day 7 -->
-          <div class="day-box">
-            <div class="day">T4</div>
-            <div class="date">10</div>
-            <img src="img/cloudy.png" />
-            <div class="temp">64°<br /><span>52°</span></div>
-            <div class="rain"><i class="fa-solid fa-droplet"></i> 60%</div>
-          </div>
-          <!-- Day 8 -->
-          <div class="day-box">
-            <div class="day">T5</div>
-            <div class="date">11</div>
-            <img src="img/cloudy.png" />
-            <div class="temp">65°<br /><span>54°</span></div>
-            <div class="rain"><i class="fa-solid fa-droplet"></i> 55%</div>
-          </div>
-          <!-- Day 9 -->
-          <div class="day-box">
-            <div class="day">T6</div>
-            <div class="date">12</div>
-            <img src="img/cloudy.png" />
-            <div class="temp">60°<br /><span>50°</span></div>
-            <div class="rain"><i class="fa-solid fa-droplet"></i> 50%</div>
-          </div>
-          <!-- Day 10 -->
-          <div class="day-box">
-            <div class="day">T7</div>
-            <div class="date">13</div>
-            <img src="img/cloudy.png" />
-            <div class="temp">61°<br /><span>51°</span></div>
-            <div class="rain"><i class="fa-solid fa-droplet"></i> 60%</div>
-          </div>
-        </div>
+        <div class="weekly-scroll" id="weekly-scroll"></div>
       </div>
 
       <div class="section">
-        <!-- Box UV -->
-        <div class="uv-date-box">
-          <p>Thứ 7, ngày 6 tháng 4</p>
-        </div>
+        <div class="uv-date-box" id="selected-date">Thứ, ngày ...</div>
 
-        <!-- Grid thông tin khác -->
         <div class="weather-info-container">
-          <!-- Hàng 1: Độ ẩm & Lượng mưa -->
           <div class="info-row top-row">
             <div class="info-box">
-              <div class="info-header">
-                <span>Độ ẩm</span>
-                <div class="icon-circle">
-                  <i class="fa-solid fa-droplet"></i>
-                </div>
-              </div>
-              <div class="info-value">55%</div>
+              <div class="info-header"><span>Độ ẩm</span><div class="icon-circle"><i class="fa-solid fa-droplet"></i></div></div>
+              <div class="info-value" id="humidity">--%</div>
             </div>
             <div class="info-box">
-              <div class="info-header">
-                <span>Lượng mưa</span>
-                <div class="icon-circle">
-                  <i class="fa-solid fa-droplet"></i>
-                </div>
-              </div>
-              <div class="info-value">0 mm</div>
+              <div class="info-header"><span>Lượng mưa</span><div class="icon-circle"><i class="fa-solid fa-cloud-rain"></i></div></div>
+              <div class="info-value" id="rain">-- mm</div>
             </div>
           </div>
 
-          <!-- Hàng 2: Gió -->
           <div class="info-row wind-section">
             <div class="wind-details">
               <div class="section-title">Gió</div>
               <div class="wind-info">
-                <div class="wind-item">
-                  <span>Gió</span>
-                  <span class="wind-value">11 km/h</span>
-                </div>
+                <div class="wind-item"><span>Gió</span><span class="wind-value" id="wind">-- km/h</span></div>
                 <hr />
-                <div class="wind-item">
-                  <span>Gió giật</span>
-                  <span class="wind-value">24 km/h</span>
-                </div>
+                <div class="wind-item"><span>Gió giật</span><span class="wind-value" id="gust">-- km/h</span></div>
                 <hr />
-                <div class="wind-item">
-                  <span>Hướng gió</span>
-                  <span class="wind-value">133° ĐN</span>
-                </div>
+                <div class="wind-item"><span>Hướng gió</span><span class="wind-value" id="wind-dir">--</span></div>
               </div>
             </div>
-
             <div class="wind-speed">
-              <!-- Icon nằm trên đầu đồng hồ -->
-              <div class="wind-icon">
-                <i class="fa-solid fa-wind"></i>
-              </div>
-
+              <div class="wind-icon"><i class="fa-solid fa-wind"></i></div>
               <div class="compass">
                 <div class="direction n">N</div>
                 <div class="direction s">S</div>
                 <div class="direction w">W</div>
                 <div class="direction e">E</div>
-
-                <div class="center-speed">11<br /><span>m/s</span></div>
-                <div class="arrow" style="transform: rotate(150deg)"></div>
+                <div class="center-speed" id="center-speed">--<br /><span>km/h</span></div>
+                <div class="arrow" id="arrow-dir" style="transform: rotate(0deg)"></div>
               </div>
             </div>
           </div>
+
           <div class="info-row top-row">
             <div class="info-box">
-              <div class="info-header">
-                <span>Mây che phủ</span>
-                <div class="icon-circle">
-                  <i class="fa-solid fa-cloud"></i>
-                </div>
-              </div>
-              <div class="info-value">91%</div>
+              <div class="info-header"><span>Mây che phủ</span><div class="icon-circle"><i class="fa-solid fa-cloud"></i></div></div>
+              <div class="info-value" id="cloud">--%</div>
             </div>
             <div class="info-box">
-              <div class="info-header">
-                <span>Tầm nhìn</span>
-                <div class="icon-circle">
-                  <i class="fa-solid fa-eye"></i>
-                </div>
-              </div>
-              <div class="info-value">22 km</div>
+              <div class="info-header"><span>Tầm nhìn</span><div class="icon-circle"><i class="fa-solid fa-eye"></i></div></div>
+              <div class="info-value" id="vis">-- km</div>
             </div>
           </div>
         </div>
       </div>
 
       <div class="bottom-nav">
-        <div class="nav-item">
-          <i class="fa-solid fa-calendar-days"></i>
-          <a href="index.html"><div>Hôm nay</div></a>
-        </div>
-        <div class="nav-item">
-          <i class="fa-solid fa-clock"></i>
-          <a href="homnay2.html"><div>Theo giờ</div></a>
-        </div>
-        <div class="nav-item">
-          <i class="fa-solid fa-calendar-day"></i>
-          <a href="hangngay.html"><div>Hằng ngày</div></a>
-        </div>
-        <div class="nav-item">
-          <i class="fa-solid fa-chart-simple"></i>
-          <a href="thuyvan.html"><div>Thủy văn</div></a>
-        </div>
-        <div class="nav-item">
-          <i class="fa-solid fa-calendar-minus"></i>
-          <a href="licham.html"><div>Lịch âm</div></a>
-        </div>
+        <div class="nav-item"><i class="fa-solid fa-calendar-days"></i><a href="index.html"><div>Hôm nay</div></a></div>
+        <div class="nav-item"><i class="fa-solid fa-clock"></i><a href="homnay2.html"><div>Theo giờ</div></a></div>
+        <div class="nav-item"><i class="fa-solid fa-calendar-day"></i><a href="hangngay.html"><div class="active">Hằng ngày</div></a></div>
+        <div class="nav-item"><i class="fa-solid fa-chart-simple"></i><a href="thuyvan.html"><div>Thủy văn</div></a></div>
+        <div class="nav-item"><i class="fa-solid fa-calendar-minus"></i><a href="licham.html"><div>Lịch âm</div></a></div>
       </div>
     </div>
+
     <script>
-      const dayBoxes = document.querySelectorAll(".date");
+      const API = "http://127.0.0.1:8000/api";
+      const wardId = localStorage.getItem("selectedWardId");
+      const scroll = document.getElementById("weekly-scroll");
 
-      dayBoxes.forEach((box) => {
-        box.addEventListener("click", () => {
-          // Bỏ active tất cả
-          dayBoxes.forEach((b) => b.classList.remove("active"));
-          // Thêm active vào box được click
-          box.classList.add("active");
+      const weekdayMap = ["CN", "T2", "T3", "T4", "T5", "T6", "T7"];
+
+      if (wardId) {
+        fetch(`${API}/weather/?ward_id=${wardId}`)
+          .then((res) => res.json())
+          .then((data) => {
+            document.getElementById("location-name").textContent = data.location.name;
+            const forecastDays = data.forecast?.forecastday || [];
+            scroll.innerHTML = "";
+
+            forecastDays.forEach((day, idx) => {
+              const dateObj = new Date(day.date);
+              const dow = dateObj.getDay();
+              const weekday = weekdayMap[dow];
+              const icon = "https:" + (day.day?.condition?.icon || "/img/cloudy.png");
+              const rain = day.day?.daily_chance_of_rain ?? "--";
+              const max = day.day?.maxtemp_c ?? "--";
+              const min = day.day?.mintemp_c ?? "--";
+
+              const box = document.createElement("div");
+              box.className = "day-box";
+              if (idx === 0) box.classList.add("active");
+
+              box.innerHTML = `
+                <div class="day">${weekday}</div>
+                <div class="date">${dateObj.getDate()}</div>
+                <img src="${icon}" />
+                <div class="temp">${max}°<br /><span>${min}°</span></div>
+                <div class="rain"><i class="fa-solid fa-droplet"></i> ${rain}%</div>
+              `;
+
+              box.addEventListener("click", (e) => showDetail(day, e));
+              scroll.appendChild(box);
+
+              if (idx === 0) showDetail(day);
+            });
+          });
+      }
+
+      function showDetail(day, event = null) {
+        const d = new Date(day.date);
+        document.getElementById("selected-date").textContent = d.toLocaleDateString("vi-VN", {
+          weekday: "long",
+          day: "numeric",
+          month: "long",
         });
-      });
 
-      // mau
+        document.getElementById("humidity").textContent = (day.day?.avghumidity ?? "--") + "%";
+        document.getElementById("rain").textContent = (day.day?.totalprecip_mm ?? "--") + " mm";
+        document.getElementById("wind").textContent = (day.day?.maxwind_kph ?? "--") + " km/h";
+        document.getElementById("gust").textContent = (day.hour?.[12]?.gust_kph ?? "--") + " km/h";
+        document.getElementById("wind-dir").textContent = day.hour?.[12]?.wind_dir ?? "--";
+        document.getElementById("center-speed").innerHTML = `${day.day?.maxwind_kph ?? "--"}<br><span>km/h</span>`;
+
+        const deg = day.hour?.[12]?.wind_degree || 0;
+        document.getElementById("arrow-dir").style.transform = `rotate(${deg}deg)`;
+        document.getElementById("cloud").textContent = (day.hour?.[12]?.cloud ?? "--") + "%";
+        document.getElementById("vis").textContent = (day.day?.avgvis_km ?? "--") + " km";
+
+        document.querySelectorAll(".day-box").forEach((b) => b.classList.remove("active"));
+        if (event?.currentTarget) event.currentTarget.classList.add("active");
+      }
+
       const currentPath = window.location.pathname.split("/").pop();
-
       document.querySelectorAll(".bottom-nav .nav-item").forEach((item) => {
-        const link = item.querySelector("a");
-        const href = link.getAttribute("href").split("/").pop();
-
-        if (
-          currentPath === href ||
-          (currentPath === "" && href === "index.html")
-        ) {
+        const href = item.querySelector("a")?.getAttribute("href")?.split("/").pop();
+        if (currentPath === href || (currentPath === "" && href === "index.html")) {
           item.classList.add("active");
         }
       });
